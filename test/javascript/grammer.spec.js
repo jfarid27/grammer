@@ -48,18 +48,72 @@
 
             })
 
-            describe('library module', function(){
+            describe('library', function(){
+
+                describe('initial setup', function(){
+                    it('should have library undefined when initialized', function(){
+                        expect(nGrammer.library()).toBeUndefined()
+                    })
+                })
 
                 describe('generator', function(){
-                    it('should generate library with set corpus')
+
+                    var testCorpus = [
+                        {name:"Beantown", value:"BOS"},
+                        {name:"Phoenix", value:"PHX"}
+                    ]
+
+                    describe('with default parameters', function(){
+                        var results
+
+                        beforeEach(function(){
+
+                            nGrammer
+                                .corpus(testCorpus)
+
+                            spyOn(nGrammer, 'generateNGrams').and.returnValue(["foo"])
+
+                            nGrammer.generateLibrary()
+
+                            results = nGrammer.library()
+                        })
+
+                        it('should generate library with set corpus', function(){
+
+                            //First
+                            var first = results[0]
+                                //name
+                                expect(first.name).toBe('Beantown')
+                                //grams
+                                expect(first.grams).toContain('foo')
+                                //value
+                                expect(first.value).toBe("BOS")
+
+                            //First
+                            var second = results[1]
+                                //name
+                                expect(second.name).toBe('Phoenix')
+                                //grams
+                                expect(second.grams).toContain('foo')
+                                //value
+                                expect(second.value).toBe("PHX")
+
+                        })
+                    })
                 })
 
-                describe('getter method', function(){
-                    it('should retrieve library when called')
-                })
+                describe('getter/setter method', function(){
 
-                describe('setter method', function(){
-                    it('should set library when called')
+                    var testLib = "foo",
+                        results
+
+                    beforeEach(function(){
+                        nGrammer.library(testLib)
+                        results = nGrammer.library()
+                    })
+                    it('should retrieve library when called', function(){
+                        expect(results).toBe(testLib)
+                    })
                 })
 
             })

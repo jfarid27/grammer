@@ -1,6 +1,6 @@
 var grammer = (function(){
 
-    var _corpus
+    var _corpus, _library
 
     var exports = function(){
 
@@ -19,8 +19,36 @@ var grammer = (function(){
         return _corpus
     }
 
-    exports.generateLibrary = function(){
+    exports.generateLibrary = function(params){
 
+        if (!_corpus){
+            return
+        }
+
+        _library = _corpus.map(function(term){
+
+            var phrase = {
+                name: term.name,
+                value: term.value,
+                grams: exports.generateNGrams(term, params)
+            }
+
+            return phrase
+        })
+
+    }
+
+    exports.generateNGrams = function(term){
+        return
+    }
+
+    exports.library = function(){
+        if (arguments && arguments.length > 0){
+            _library = arguments[0]
+            return exports
+        }
+
+        return _library
     }
 
     if (typeof module !== 'undefined' && modules.exports){
