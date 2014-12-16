@@ -38,8 +38,17 @@ var grammer = (function(){
 
     }
 
-    exports.generateNGrams = function(term){
-        return
+    exports.generateNGrams = function(term, params){
+
+        var n = (params) ? (params.n || 2) : 2
+
+        return this.recursiveBreak(term, n)
+    }
+
+    exports.recursiveBreak = function(str, n){
+        var head =[str.slice(0, n)]
+        var rest = str.slice(1)
+        return (str.length >= n) ? head.concat(this.recursiveBreak(rest, n)) : []
     }
 
     exports.library = function(){

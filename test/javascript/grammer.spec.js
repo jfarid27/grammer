@@ -118,6 +118,46 @@
 
             })
 
+            describe('nGram generator module', function(){
+                describe('when given a term', function(){
+
+                    var term = "Test Term"
+
+                    describe('with default parameters', function(){
+
+                        var expected = ["Te", "es", "st", "er", "rm"],
+                        results
+
+                        beforeEach(function(){
+                            spyOn(nGrammer, 'recursiveBreak').and.returnValue(['foo'])
+                            results = nGrammer.generateNGrams(term)
+                        })
+
+                        it('should return a valid list of bigrams', function(){
+                            expect(results).toContain('foo')
+                        })
+                    })
+                })
+            })
+
+            describe('recursive n-gram generator', function(){
+                describe('test case 1:', function(){
+
+                    var testString = "abc",
+                        expected = ['ab', 'bc'],
+                        results
+
+                    beforeEach(function(){
+                        results = nGrammer.recursiveBreak(testString, 2)
+                    })
+
+                    it('should return valid n-grams', function(){
+                        expect(results).toContain(expected[0])
+                        expect(results).toContain(expected[1])
+                    })
+                })
+            })
+
             describe('nGram comparison module', function(){
                 describe('comparison function', function(){
                     describe('with default parameters', function(){
