@@ -2,24 +2,48 @@
 
     define(['src/javascript/grammer'], function(){
 
-        var nGrammer
 
-        beforeEach(function(){
-
-            nGrammer = grammer()
-
-        })
 
         describe('Grammer library', function(){
 
+            var nGrammer
+
+            beforeEach(function(){
+                nGrammer = grammer()
+            })
+
             describe('corpus module', function(){
 
-                describe('getter method', function(){
-                    it('should retrieve set corpus when called')
+                describe('initial setup', function(){
+                    it('should have corpus undefined when initialized', function(){
+                        expect(nGrammer.corpus()).toBeUndefined()
+                    })
                 })
 
-                describe('setter method', function(){
-                    it('should set corpus when called')
+                describe('getter/setter method', function(){
+
+                    var response,
+                        testCorpus = [
+                            {name:"New York", value:"NYC"},
+                            {name:"New York City", value:"NYC"},
+                            {name:"Beantown", value:"BOS"},
+                            {name:"Phoenix", value:"PHX"}
+                        ]
+
+                    beforeEach(function(){
+
+                        nGrammer
+                            .corpus(testCorpus)
+
+                        response = nGrammer.corpus()
+                    })
+
+                    it('should set corpus with given dataset when called', function(){
+                        expect(response).toContain(testCorpus[0])
+                        expect(response).toContain(testCorpus[1])
+                        expect(response).toContain(testCorpus[2])
+                        expect(response).toContain(testCorpus[3])
+                    })
                 })
 
             })

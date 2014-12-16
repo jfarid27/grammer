@@ -6,15 +6,13 @@ var grammer = (function(){
 
         var self = this
 
-
-
         return self
     }
 
     exports.corpus = function(){
 
         if (arguments && arguments.length > 0){
-            _corpus = arguments
+            _corpus = arguments[0]
             return exports
         }
 
@@ -32,4 +30,4 @@ var grammer = (function(){
     return exports
 
 
-})()
+})
