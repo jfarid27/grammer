@@ -4,7 +4,8 @@
   "description": "An n-gram similarity library.",
   "main": "grammer.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run"
+    "test": "./node_modules/karma/bin/karma start --single-run",
+    "dev": "./node_modules/karma/bin/karma start --auto-watch --log-level error"
   },
   "repository": {
     "type": "git",

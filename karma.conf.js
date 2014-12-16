@@ -3,7 +3,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '.',
 
 
     // frameworks to use
@@ -17,10 +17,10 @@ module.exports = function(config) {
         {'pattern': 'test/test.config.js', 'included': true},
 
         //Source Files
-        {'pattern': 'src/javascript/grammer.js', 'included':false},
+        {'pattern': 'src/javascript/*.js', 'included':false},
 
         //Test Files
-        {'pattern': 'test/javascript/**/*.spec\.js', 'included': false}
+        {'pattern': 'test/javascript/*.spec\.js', 'included': false}
 
     ],
 
@@ -40,7 +40,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'html'],
+    reporters: ['dots'],
 
     htmlReporter: {
       outputFile: 'log/test/units.html'

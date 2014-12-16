@@ -1,31 +1,31 @@
-(function(){
-var allTestFiles = [];
-var TEST_REGEXP = /spec\.js$/;
+(function () {
+    var allTestFiles = [];
+    var TEST_REGEXP = /spec\.js$/;
 
-var pathToModule = function(path) {
-  return path.replace(/^\/base\//, '').replace(/\.js$/, '');
-}
+    var pathToModule = function (path) {
+        return path.replace(/^\/base\//, '').replace(/\.js$/, '');
+    }
 
-Object.keys(window.__karma__.files).forEach(function(file) {
-  if (TEST_REGEXP.test(file)) {
-    // Normalize paths to RequireJS module names.
-    allTestFiles.push(pathToModule(file));
-  }
-})
+    Object.keys(window.__karma__.files).forEach(function (file) {
+        if (TEST_REGEXP.test(file)) {
+            // Normalize paths to RequireJS module names.
+            allTestFiles.push(pathToModule(file));
+        }
+    })
 
-require.config({
+    require.config({
 
-    'baseUrl': '/base',
+        'baseUrl': '/base',
 
-    'paths': {},
+        'paths': {},
 
-    'shim': {},
+        'shim': {},
 
-    'waitSeconds': 6,
+        'waitSeconds': 6,
 
-    'deps': allTestFiles,
+        'deps': allTestFiles,
 
-    'callback': window.__karma__.start
-})
+        'callback': window.__karma__.start
+    })
 
 })();
