@@ -2,8 +2,6 @@
 
     define(['src/javascript/grammer'], function(){
 
-
-
         describe('Grammer library', function(){
 
             var nGrammer
@@ -160,15 +158,90 @@
 
             describe('nGram comparison module', function(){
                 describe('comparison function', function(){
+
                     describe('with default parameters', function(){
-                        it('should compare n-grams with cosine distance')
+                        var expected = 20,
+                            testGram1 = ["fo"],
+                            testGram2 = ["ba"],
+                            mockScoring = function(){ return 20},
+                            results
+
+                        beforeEach(function(){
+                            spyOn(nGrammer, 'scoring').and.returnValue(mockScoring)
+                            results = nGrammer.nGramComparison(testGram1, testGram2)
+                        })
+                        it('should compare n-grams with cosine distance', function(){
+                            expect(nGrammer.scoring).toHaveBeenCalledWith('cosine')
+                            expect(results).toBe(20)
+                        })
                     })
                 })
 
                 describe('distance measures:', function(){
                     describe('cosine', function(){
-                        describe('test case 1', function(){
-                            it('should pass')
+
+                        var cosignScoring
+
+                        beforeEach(function(){
+                            cosignScoring = nGrammer.scoring('cosine')
+                        })
+
+                        describe('test case 1 (Little off)', function(){
+
+                            var expected = 41.41,
+                                results,
+                                test1,
+                                test2
+
+                            beforeEach(function(){
+
+                                test1 = ['fo', 'ob', 'Te', 'hh']
+                                test2 = ['Te', 'ob', 'bb', 'hh']
+
+                                results = cosignScoring(test1, test2)
+                            })
+
+                            it('should pass', function(){
+                                expect(results).toBeCloseTo(expected)
+                            })
+                        })
+
+                        describe('test case 2 (Exact Match)', function(){
+                            var expected = 0,
+                                results,
+                                test1,
+                                test2
+
+                            beforeEach(function(){
+
+                                test1 = ['fo', 'ob', 'Te', 'hh']
+                                test2 = ['fo', 'ob', 'Te', 'hh']
+
+                                results = cosignScoring(test1, test2)
+                            })
+
+                            it('should pass', function(){
+                                expect(results).toBeCloseTo(expected)
+                            })
+                        })
+
+                        describe('test case 2 (Mismatch)', function(){
+                            var expected = 90,
+                                results,
+                                test1,
+                                test2
+
+                            beforeEach(function(){
+
+                                test1 = ['fo', 'ob', 'Te', 'hh']
+                                test2 = ['fa']
+
+                                results = cosignScoring(test1, test2)
+                            })
+
+                            it('should pass', function(){
+                                expect(results).toBeCloseTo(expected)
+                            })
                         })
                     })
                 })
