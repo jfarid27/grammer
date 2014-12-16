@@ -167,11 +167,11 @@
                             results
 
                         beforeEach(function(){
-                            spyOn(nGrammer, 'scoring').and.returnValue(mockScoring)
+                            spyOn(nGrammer, '_scoring').and.returnValue(mockScoring)
                             results = nGrammer.nGramComparison(testGram1, testGram2)
                         })
                         it('should compare n-grams with cosine distance', function(){
-                            expect(nGrammer.scoring).toHaveBeenCalledWith('cosine')
+                            expect(nGrammer._scoring).toHaveBeenCalledWith('cosine')
                             expect(results).toBe(20)
                         })
                     })
@@ -183,12 +183,12 @@
                         var cosignScoring
 
                         beforeEach(function(){
-                            cosignScoring = nGrammer.scoring('cosine')
+                            cosignScoring = nGrammer._scoring('cosine')
                         })
 
                         describe('test case 1 (Little off)', function(){
 
-                            var expected = 41.41,
+                            var expected = -41.41,
                                 results,
                                 test1,
                                 test2
@@ -226,7 +226,7 @@
                         })
 
                         describe('test case 2 (Mismatch)', function(){
-                            var expected = 90,
+                            var expected = -90,
                                 results,
                                 test1,
                                 test2
@@ -248,13 +248,49 @@
             })
 
             describe('search module', function(){
+
+                var testCorpus
+
+                beforeEach(function(){
+                    testCorpus = [
+                            {name:"New York", value:"NYC"},
+                            {name:"New York City", value:"NYC"},
+                            {name:"Beantown", value:"BOS"},
+                            {name:"Phoenix", value:"PHX"}
+                        ]
+
+                    nGrammer
+                        .corpus(testCorpus)
+                        .generateLibrary()
+
+                })
                 describe('search function', function(){
+
                     describe('with default parameters', function(){
-                        it('should return highest scoring phrase with cosine distance')
+
+                        var expected = "BOS", results
+
+                        beforeEach(function(){
+                            results = nGrammer.search('Beantow').phrase
+                        })
+
+                        it('should return highest scoring phrase with cosine distance', function(){
+                            expect(results.value).toBe(expected)
+                        })
                     })
 
                     describe('with similarity threshold', function(){
-                        it('should only return phrases with similarity measure above given threshold')
+
+                        var expected = "NYC", results
+
+                        beforeEach(function(){
+                            results = nGrammer.search('New ork City', -65)
+                        })
+
+                        it('should only return phrases with similarity measure above given threshold', function(){
+                            expect(results[0].phrase.value).toBe(expected)
+                            expect(results[1].phrase.value).toBe(expected)
+                        })
                     })
                 })
             })

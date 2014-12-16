@@ -17,24 +17,28 @@ var grammer = (function(){
         var sum = 0
 
         for (gram in grams1){
-            for (checkgram in grams2){
-                if (grams1[gram] == grams2[checkgram]){
-                    sum = sum + 1
+
+            if(grams1[gram].contains(" ") != true){
+                for (checkgram in grams2){
+                    if (grams1[gram].toLowerCase() == grams2[checkgram].toLowerCase()){
+                        sum = sum + 1
+                    }
                 }
             }
+
         }
 
-        return Math.acos(sum / (l1 * l2)) * (180/Math.PI)
+        return -Math.acos(sum / (l1 * l2)) * (180/Math.PI)
     }
 
-    exports.scoring = function(type){
+    exports._scoring = function(type){
         if (type == 'cosine') { return _cosineComparison }
-        return undefined
+        return exports
     }
 
     exports.nGramComparison = function(grams1, grams2, params){
         var type = (params) ? (params.type || 'cosine') : 'cosine'
-        return exports.scoring(type)(grams1, grams2)
+        return exports._scoring(type)(grams1, grams2)
     }
 
     exports.corpus = function(){
@@ -58,11 +62,13 @@ var grammer = (function(){
             var phrase = {
                 name: term.name,
                 value: term.value,
-                grams: exports.generateNGrams(term, params)
+                grams: exports.generateNGrams(term.name, params)
             }
 
             return phrase
         })
+
+        return exports
 
     }
 
@@ -80,12 +86,30 @@ var grammer = (function(){
     }
 
     exports.library = function(){
+
         if (arguments && arguments.length > 0){
             _library = arguments[0]
             return exports
         }
 
         return _library
+    }
+
+    exports.search = function(term, threshold){
+
+        var self = this
+
+        var searchgrams = self.generateNGrams(term)
+
+        var results = self.library().map(function(phrase){
+            return {phrase:phrase, score: self.nGramComparison(searchgrams, phrase.grams)}
+        }).sort(function(a, b){
+            //Higher scores come first here
+            return (a.score > b.score) ? -1 : 1
+        })
+
+        return (typeof threshold != 'undefined') ? results.filter(function(w){ return w.score >= threshold}) : results[0]
+
     }
 
     if (typeof module !== 'undefined' && modules.exports){
