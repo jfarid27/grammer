@@ -18,7 +18,7 @@ var grammer = (function(){
 
         for (gram in grams1){
 
-            if(grams1[gram].contains(" ") != true){
+            if(grams1[gram].search(" ") < 0){
                 for (checkgram in grams2){
                     if (grams1[gram].toLowerCase() == grams2[checkgram].toLowerCase()){
                         sum = sum + 1
