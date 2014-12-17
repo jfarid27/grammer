@@ -1,6 +1,6 @@
 {
   "name": "grammer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An n-gram similarity library.",
   "main": "grammer.js",
   "scripts": {
