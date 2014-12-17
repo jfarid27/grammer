@@ -1,0 +1,14 @@
+{
+  "name": "grammer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jfarid27/grammer",
+  "authors": [
+    "jfarid27 <jrab227@gmail.com>"
+  ],
+  "description": "An n-gram similarity calculator library",
+  "main": "src/javascript/grammer.js",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "GPLv3"
+}
