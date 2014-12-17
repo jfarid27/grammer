@@ -17,18 +17,21 @@ var grammer = (function(){
         var sum = 0
 
         for (gram in grams1){
-
-            if(grams1[gram].search(" ") < 0){
-                for (checkgram in grams2){
-                    if (grams1[gram].toLowerCase() == grams2[checkgram].toLowerCase()){
-                        sum = sum + 1
-                    }
-                }
+	    for (checkgram in grams2){
+	        if (grams1[gram].toLowerCase() == grams2[checkgram].toLowerCase()){
+		    sum = sum + 1
+	        }
             }
-
         }
 
-        return -Math.acos(sum / (l1 * l2)) * (180/Math.PI)
+        var quotient = (sum / (l1 * l2))
+
+        // Removing some numerical error so acos doesnt return NaN
+        if ( Math.abs(1-quotient) < 0.0001) { quotient = 1}
+
+        var score = -Math.acos(quotient) * (180/Math.PI)
+
+        return score
     }
 
     exports._scoring = function(type){
